@@ -12,6 +12,8 @@ class CxCollectionDetail < ApplicationRecord
   validates :transaction_point, presence: true
   validates :channel, presence: true
 
+  before_save :sync_form_id_int
+
   def volume_of_respondents
     cx_responses.count
   end
@@ -92,5 +94,16 @@ class CxCollectionDetail < ApplicationRecord
         ]
       end
     end
+  end
+
+  private
+
+  # Keep form_id_int in sync with the legacy string form_id column on every
+  # write, mirroring the one-time backfill logic in
+  # db/migrate/20261027011331_add_form_id_int_to_cx_collection_details.rb so
+  # new and updated records don't drift from that initial backfill.
+  def sync_form_id_int
+    stripped = form_id.to_s.strip
+    self.form_id_int = stripped.match?(/\A\d+\z/) ? stripped.to_i : nil
   end
 end

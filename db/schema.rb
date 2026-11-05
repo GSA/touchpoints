@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_27_011331) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -80,6 +80,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_05_000000) do
     t.integer "cx_collection_id"
     t.string "federal_register_url"
     t.string "form_id"
+    t.integer "form_id_int"
     t.string "omb_control_number"
     t.text "reflection_text"
     t.integer "service_stage_id"

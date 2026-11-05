@@ -61,4 +61,48 @@ RSpec.describe CxCollectionDetail, type: :model do
       end
     end
   end
+
+  describe '#form_id_int' do
+    it 'is set from a numeric form_id on create' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: "123")
+
+      expect(detail.form_id_int).to eq(123)
+    end
+
+    it 'strips surrounding whitespace before converting to an integer' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: "  456  ")
+
+      expect(detail.form_id_int).to eq(456)
+    end
+
+    it 'is nil when form_id is non-numeric' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: "abc123")
+
+      expect(detail.form_id_int).to be_nil
+    end
+
+    it 'is nil when form_id is blank' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: nil)
+
+      expect(detail.form_id_int).to be_nil
+    end
+
+    it 'stays in sync when form_id is changed on an existing record' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: "123")
+      expect(detail.form_id_int).to eq(123)
+
+      detail.update!(form_id: "789")
+
+      expect(detail.form_id_int).to eq(789)
+    end
+
+    it 'clears form_id_int when form_id is updated to a non-numeric value' do
+      detail = FactoryBot.create(:cx_collection_detail, cx_collection:, service:, transaction_point: :post_service_journey, channel: Service.channels.sample, form_id: "123")
+      expect(detail.form_id_int).to eq(123)
+
+      detail.update!(form_id: "not-a-number")
+
+      expect(detail.form_id_int).to be_nil
+    end
+  end
 end
