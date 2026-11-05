@@ -2,9 +2,14 @@
 
 module Admin
   class QuestionsController < AdminController
-    before_action :set_form, only: %i[create edit update sort destroy]
+    before_action :set_form, only: %i[create show edit update sort destroy]
     before_action :ensure_form_manager_access, only: %i[create edit update sort destroy]
-    before_action :set_question, only: %i[edit update destroy]
+    before_action :ensure_question_view_access, only: :show
+    before_action :set_question, only: %i[show edit update destroy]
+
+    def show
+      render layout: false
+    end
 
     def edit
       render layout: false
@@ -81,6 +86,10 @@ module Admin
 
     def ensure_form_manager_access
       ensure_form_manager(form: @form)
+    end
+
+    def ensure_question_view_access
+      ensure_form_manager(form: @form) unless @form.template?
     end
 
     def set_defaults

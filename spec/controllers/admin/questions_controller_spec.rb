@@ -49,6 +49,14 @@ RSpec.describe Admin::QuestionsController, type: :controller do
     sign_in(admin)
   end
 
+  describe 'GET #show' do
+    it 'returns a success response' do
+      question = Question.create! valid_attributes
+      get :show, params: { id: question.to_param }, session: valid_session
+      expect(response).to be_successful
+    end
+  end
+
   describe 'GET #edit' do
     it 'returns a success response' do
       question = Question.create! valid_attributes
@@ -289,6 +297,41 @@ RSpec.describe Admin::QuestionsController, type: :controller do
     before do
       sign_out(admin)
       sign_in(user)
+    end
+
+    it 'does not allow a non-manager to view a non-template question' do
+      get :show, params: { form_id: form.short_uuid, id: question.id }
+
+      expect(response).to redirect_to(index_path)
+    end
+
+    context 'when the form is a template' do
+      let(:form) { FactoryBot.create(:form, organization:, template: true) }
+
+      it 'allows a non-manager to view a template question' do
+        get :show, params: { form_id: form.short_uuid, id: question.id }
+
+        expect(response).to be_successful
+      end
+
+      it 'does not allow viewing a question belonging to another form' do
+        other_form = FactoryBot.create(:form, organization:)
+        other_question = FactoryBot.create(:question, form: other_form, form_section: other_form.form_sections.first)
+
+        expect do
+          get :show, params: { form_id: form.short_uuid, id: other_question.id }
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    context 'when the user is a form manager' do
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+
+      it 'allows the user to view a non-template question' do
+        get :show, params: { form_id: form.short_uuid, id: question.id }
+
+        expect(response).to be_successful
+      end
     end
 
     it 'does not allow a non-manager to update a question' do
