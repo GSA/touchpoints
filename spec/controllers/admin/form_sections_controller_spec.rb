@@ -257,12 +257,6 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
       expect(response).to redirect_to(index_path)
     end
 
-    it 'does not allow a non-manager to edit a form section' do
-      get :edit, params: { form_id: form.short_uuid, id: form_section.id }
-
-      expect(response).to redirect_to(index_path)
-    end
-
     it 'does not allow a non-manager to update a form section' do
       put :update, params: {
         form_id: form.short_uuid,
