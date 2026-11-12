@@ -11,6 +11,12 @@ gem 'rails', rails_version
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
 
+# Require json 3.x-compatible Sprockets.
+# See https://github.com/rails/sprockets/issues/868
+gem 'sprockets', '>= 4.3'
+
+gem 'json', '>= 3.0'
+
 # Use postgresql as the database for Active Record
 gem 'pg'
 
