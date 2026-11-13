@@ -49,28 +49,12 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
     sign_in(admin)
   end
 
-  describe 'GET #index' do
-    it 'returns a success response' do
-      QuestionOption.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      question_option = QuestionOption.create! valid_attributes
-      get :show, params: { id: question_option.to_param }, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
   describe 'GET #new' do
     let(:form) { FactoryBot.create(:form, organization:) }
     let(:question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
 
     it 'returns a success response' do
-      get :new, params: { form_id: form.id, question_id: question.id }, session: valid_session
+      get :new, params: { form_id: form.short_uuid, question_id: question.id }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -157,6 +141,141 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
     end
   end
 
+  describe 'authorization and scoping' do
+    let(:form) { FactoryBot.create(:form, organization:) }
+    let(:question) { FactoryBot.create(:question, :with_radio_buttons, form:, form_section: form.form_sections.first) }
+    let!(:option) { question.question_options.first }
+    let(:path_params) { { form_id: form.short_uuid, question_id: question.id } }
+    let(:user) { FactoryBot.create(:user, organization:) }
+
+    {
+      new: :get,
+      edit: :get,
+      create: :post,
+      create_other: :post,
+      update: :patch,
+      update_title: :patch,
+      destroy: :delete,
+      sort: :patch,
+    }.each do |action, method|
+      it "does not allow a non-manager to access #{action}" do
+        sign_out(admin)
+        sign_in(user)
+        original_options = question.question_options.pluck(:id, :text, :value, :position, :other_option)
+
+        public_send(method, action, params: path_params.merge(
+          id: option.id, text: 'Changed', question_option: { text: 'Changed' },
+        ))
+
+        expect(response).to redirect_to(index_path)
+        expect(question.question_options.reload.pluck(:id, :text, :value, :position, :other_option)).to eq(original_options)
+      end
+
+      it "does not allow #{action} through another form's path" do
+        other_form = FactoryBot.create(:form, organization:)
+
+        expect do
+          public_send(method, action, params: path_params.merge(
+            form_id: other_form.short_uuid, id: option.id, text: 'Changed',
+            question_option: { text: 'Changed' },
+          ))
+        end.to raise_error(ActiveRecord::RecordNotFound)
+      end
+    end
+
+    { edit: :get, update: :patch, update_title: :patch, destroy: :delete }.each do |action, method|
+      it "does not allow #{action} on an option belonging to another question" do
+        other_question = FactoryBot.create(:question,
+          form:, form_section: form.form_sections.first, answer_field: 'answer_02')
+        other_option = FactoryBot.create(:question_option, question: other_question, position: 1)
+
+        expect do
+          public_send(method, action, params: path_params.merge(
+            id: other_option.id, text: 'Changed', question_option: { text: 'Changed' },
+          ))
+        end.to raise_error(ActiveRecord::RecordNotFound)
+
+        expect(other_option.reload.text).not_to eq('Changed')
+      end
+    end
+
+    it 'does not allow question_id to be changed during update' do
+      other_question = FactoryBot.create(:question,
+        form:, form_section: form.form_sections.first, answer_field: 'answer_02')
+
+      patch :update, params: path_params.merge(
+        id: option.id, question_option: { question_id: other_question.id, text: 'Changed' }, format: :js,
+      )
+
+      expect(option.reload.question).to eq(question)
+      expect(option.text).to eq('Changed')
+    end
+
+    it 'creates an option under the question in the path, not a submitted question_id' do
+      other_question = FactoryBot.create(:question,
+        form:, form_section: form.form_sections.first, answer_field: 'answer_02')
+
+      expect do
+        post :create, params: path_params.merge(
+          question_option: { question_id: other_question.id, text: 'New option' }, format: :js,
+        )
+      end.to change { question.question_options.count }.by(1)
+
+      expect(other_question.question_options).to be_empty
+      expect(question.question_options.find_by!(text: 'New option').value).to eq('New option')
+    end
+
+    it 'returns not found for an unknown form' do
+      expect do
+        get :new, params: path_params.merge(form_id: 'missing-form')
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
+    context 'when the user is a form manager' do
+      let!(:user_role) { FactoryBot.create(:user_role, :form_manager, user:, form:) }
+
+      before do
+        sign_out(admin)
+        sign_in(user)
+      end
+
+      it 'allows renaming an option with the member route id' do
+        patch :update_title, params: path_params.merge(id: option.id, text: 'Changed')
+
+        expect(response).to have_http_status(:ok)
+        expect(option.reload.text).to eq('Changed')
+      end
+
+      it 'allows creating an Other option' do
+        expect do
+          post :create_other, params: path_params.merge(format: :js)
+        end.to change { question.question_options.where(other_option: true).count }.by(1)
+      end
+
+      it 'allows deleting an option' do
+        expect do
+          delete :destroy, params: path_params.merge(id: option.id)
+        end.to change { question.question_options.count }.by(-1)
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when the form is a template' do
+      let(:form) { FactoryBot.create(:form, organization:, template: true) }
+
+      it 'does not grant mutation access to a non-manager' do
+        sign_out(admin)
+        sign_in(user)
+
+        patch :update_title, params: path_params.merge(id: option.id, text: 'Changed')
+
+        expect(response).to redirect_to(index_path)
+        expect(option.reload.text).not_to eq('Changed')
+      end
+    end
+  end
+
   describe 'PATCH #sort' do
     context 'with multiple question options' do
       let(:form) { FactoryBot.create(:form, organization:) }
@@ -167,14 +286,40 @@ RSpec.describe Admin::QuestionOptionsController, type: :controller do
       let!(:option4) { FactoryBot.create(:question_option, question:, text: 'Four', position: 4) }
 
       it 'reorders the question options' do
-        patch :sort, params: { question_id: question.id, form_id: form.id, question_option: [option2.id, option4.id, option3.id, option1.id] }, session: valid_session
+        patch :sort, params: { question_id: question.id, form_id: form.short_uuid, question_option: [option2.id, option4.id, option3.id, option1.id] }, session: valid_session
         question.reload
         expect(question.question_options.order(:position).pluck(:text)).to eq(['Two', 'Four', 'Three', 'One'])
       end
 
       it 'validates that reorder is complete' do
-        patch :sort, params: { question_id: question.id, form_id: form.id, question_option: [option3.id, option4.id, option1.id] }, session: valid_session
+        patch :sort, params: { question_id: question.id, form_id: form.short_uuid, question_option: [option3.id, option4.id, option1.id] }, session: valid_session
         expect(response).to have_http_status(:unprocessable_content)
+      end
+
+      it 'rejects missing, duplicate, and foreign option IDs without changing positions' do
+        other_question = FactoryBot.create(:question,
+          form:, form_section: form.form_sections.first, answer_field: 'answer_02')
+        other_option = FactoryBot.create(:question_option, question: other_question, position: 1)
+        original_positions = question.question_options.pluck(:id, :position)
+
+        [nil, [option1.id, option1.id, option3.id, option4.id],
+         [other_option.id, option2.id, option3.id, option4.id]].each do |ids|
+          patch :sort, params: { form_id: form.short_uuid, question_id: question.id, question_option: ids }
+
+          expect(response).to have_http_status(:unprocessable_content)
+          expect(question.question_options.reload.pluck(:id, :position)).to eq(original_positions)
+          expect(other_option.reload.position).to eq(1)
+        end
+      end
+
+      it 'accepts string option IDs from the browser' do
+        patch :sort, params: {
+          form_id: form.short_uuid, question_id: question.id,
+          question_option: [option4.id, option3.id, option2.id, option1.id].map(&:to_s),
+        }
+
+        expect(response).to have_http_status(:ok)
+        expect(question.question_options.reload.pluck(:id)).to eq([option4.id, option3.id, option2.id, option1.id])
       end
     end
   end

@@ -66,6 +66,12 @@ RSpec.describe Admin::FormSectionsController, type: :controller do
   end
 
   describe 'GET #new' do
+    it 'raises RecordNotFound for an unknown form' do
+      expect do
+        get :new, params: { form_id: 'missing-form' }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it 'returns a success response' do
       get :new, params: { form_id: FactoryBot.create(:form, organization:) }, session: valid_session
       expect(response).to be_successful

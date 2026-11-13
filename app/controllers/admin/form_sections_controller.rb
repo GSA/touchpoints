@@ -77,7 +77,7 @@ module Admin
     end
 
     def set_form
-      @form = Form.find_by_short_uuid(params[:form_id])
+      @form = Form.find_by!(short_uuid: params[:form_id])
     end
 
     def ensure_form_manager_access
