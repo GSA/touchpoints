@@ -15,12 +15,14 @@
 
   <div class="field">
     <%= form.label :text, class: "usa-label" %>
-    <%= form.text_area :text, class: "usa-input question-option-text", rows: 5 %>
+    <div id="question-option-text-hint" class="usa-hint font-sans-2xs">Enter one option per line. When creating multiple options, leave Value empty; each value will match its text.</div>
+    <%= form.text_area :text, class: "usa-input question-option-text", rows: 5, aria: { describedby: 'question-option-text-hint' } %>
   </div>
 
   <div class="field">
     <%= form.label :value, class: "usa-label" %>
-    <%= form.text_field :value, class: "usa-input" %>
+    <div id="question-option-value-hint" class="usa-hint font-sans-2xs">For a single option, enter a custom value or leave empty to use the text.</div>
+    <%= form.text_field :value, class: "usa-input", aria: { describedby: 'question-option-value-hint' } %>
   </div>
 
   <p>
@@ -45,6 +47,11 @@ $(function() {
       option_text = $.trim(option_text)
       if (option_text.length == 0) {
         alert("Please enter a value for question option text!");
+        return false;
+      }
+      var option_texts = option_text.split(/\r\n|\r|\n/).filter(function(text) { return $.trim(text).length > 0; });
+      if (option_texts.length > 1 && $.trim(option_value).length > 0) {
+        alert("Value must be empty when creating multiple options");
         return false;
       }
       $(".question-option-edit").hide();
