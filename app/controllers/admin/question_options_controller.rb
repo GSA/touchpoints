@@ -38,45 +38,34 @@ module Admin
     end
 
     def create
-      text_array = question_option_params[:text].split("\n")
-      position = @question.question_options.size + 1
+      attributes = question_option_params
+      texts = attributes[:text].to_s.split(/\r\n|\r|\n/).reject(&:blank?)
       @new_question_options = []
       @errors = []
-      result = false
 
-      if text_array.length.positive? # multiple options
-        text_array.each do |txt|
-          if ["radio_buttons", "checkbox"].include?(@question.question_type)
-            if txt.upcase == 'OTHER' || txt.upcase == 'OTRO'
-              @errors << "Use add #{txt} button"
-              next
-            end
-          end
-          @question_option = QuestionOption.where(question_id: params[:question_id], text: txt).first
-          if @question_option
-            @errors << "Question option already exists for text #{txt}"
+      if texts.empty?
+        @errors << "Text can't be blank"
+      elsif texts.many? && attributes[:value].present?
+        @errors << 'Value must be empty when creating multiple options'
+      else
+        position = @question.question_options.size + 1
+        texts.each do |text|
+          if ["radio_buttons", "checkbox"].include?(@question.question_type) && ['OTHER', 'OTRO'].include?(text.upcase)
+            @errors << "Use add #{text} button"
             next
           end
-          @question_option = QuestionOption.new(question_id: params[:question_id], text: txt, value: txt, position:)
+          if @question.question_options.exists?(text:)
+            @errors << "Question option already exists for text #{text}"
+            next
+          end
+
+          value = attributes[:value] if texts.one?
+          @question_option = @question.question_options.new(text:, value:, position:)
           if @question_option.save
             @new_question_options << @question_option
             position += 1
           else
-            @errors << @question_option.errors.full_messages
-          end
-        end
-      else
-        @question_option = QuestionOption.where(question_id: params[:question_id], text: params[:text]).first
-        if question_option
-          @errors << "Question option already exists for text #{params[:text]}"
-        else
-          @question_option = QuestionOption.new(question_option_params)
-          @question_option.position = position
-          if @question_option.save
-            @new_question_options << @question_option
-            # ok
-          else
-            @errors << @question_option.errors.full_messages
+            @errors.concat(@question_option.errors.full_messages)
           end
         end
       end

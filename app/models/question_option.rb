@@ -7,6 +7,11 @@ class QuestionOption < ApplicationRecord
 
   validates :text, presence: true
   validates :value, presence: true
+  # Check new or changed options without blocking unrelated edits to legacy duplicates.
+  validates :text, uniqueness: { scope: :question_id },
+                   if: -> { new_record? || will_save_change_to_text? }
+  validates :value, uniqueness: { scope: :question_id },
+                    if: -> { new_record? || will_save_change_to_value? }
   validates :position, presence: true
   validate :one_other_option_per_question, on: :create
 

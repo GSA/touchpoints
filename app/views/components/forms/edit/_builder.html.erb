@@ -359,24 +359,6 @@ $(function() {
     });
   });
 
-  // Set Question Option value to what the Question Option name is initially
-  $('.form-builder').on('blur', ".question-option-form textarea.usa-input[name='question_option[text]']", function(e) {
-    e.preventDefault();
-    const enteredText = $(this).val();
-    const numberOfLineBreaks = (enteredText.match(/\n/g)||[]).length;
-    var questionDiv = $($(this).parents(".question")[0]);
-    var valueField = questionDiv.find("input.usa-input[type='text'][name='question_option[value]']");
-    var valueLabel = valueField.parent().find(".usa-label");
-    if (numberOfLineBreaks > 0) {
-      return true;
-    } else {
-      valueField.show();
-      valueLabel.show();
-    }
-    if (valueField.val() === '') {
-      valueField.val(enteredText);
-    }
-  });
 <% end %>
 });
 function textCounter(field,maxlimit) {
