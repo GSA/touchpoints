@@ -50,6 +50,12 @@ RSpec.describe Admin::QuestionsController, type: :controller do
   end
 
   describe 'GET #show' do
+    it 'raises RecordNotFound for an unknown form' do
+      expect do
+        get :show, params: { form_id: 'missing-form', id: 1 }
+      end.to raise_error(ActiveRecord::RecordNotFound)
+    end
+
     it 'returns a success response' do
       question = Question.create! valid_attributes
       get :show, params: { id: question.to_param }, session: valid_session

@@ -2,17 +2,13 @@
 
 module Admin
   class QuestionOptionsController < AdminController
-    before_action :set_question, only: %i[new create create_other show edit update destroy sort]
-    before_action :set_question_option, only: %i[show edit update destroy]
-
-    def index
-      @question_options = QuestionOption.all
-    end
-
-    def show; end
+    before_action :set_form, only: %i[new create create_other edit update destroy sort update_title]
+    before_action :ensure_form_manager_access, only: %i[new create create_other edit update destroy sort update_title]
+    before_action :set_question, only: %i[new create create_other edit update destroy sort update_title]
+    before_action :set_question_option, only: %i[edit update destroy update_title]
 
     def new
-      @question_option = QuestionOption.new
+      @question_option = @question.question_options.new
       render layout: false
     end
 
@@ -21,21 +17,24 @@ module Admin
     end
 
     def sort
+      option_ids = Array(params[:question_option]).map(&:to_s)
       current_option_ids = @question.question_options.pluck(:id).map(&:to_s)
-      if current_option_ids.sort == params[:question_option].sort
-        params[:question_option].each_with_index do |id, index|
-          QuestionOption.find(id).update(position: index + 1)
-        end
-        head :ok
-      else
+      unless current_option_ids.sort == option_ids.sort
         render json: { error: "All question options must be listed exactly once in reordering request" }, status: :unprocessable_content
+        return
       end
+
+      QuestionOption.transaction do
+        option_ids.each_with_index do |id, index|
+          @question.question_options.find(id).update!(position: index + 1)
+        end
+      end
+      head :ok
     end
 
     def update_title
-      question_option = QuestionOption.where(id: params[:question_option_id]).first
-      question_option.update!(text: params[:text])
-      render json: question_option
+      @question_option.update!(text: params[:text])
+      render json: @question_option
     end
 
     def create
@@ -115,17 +114,24 @@ module Admin
 
     private
 
+    def set_form
+      @form = Form.find_by!(short_uuid: params[:form_id])
+    end
+
+    def ensure_form_manager_access
+      ensure_form_manager(form: @form)
+    end
+
     def set_question_option
-      @question_option = QuestionOption.find(params[:id])
+      @question_option = @question.question_options.find(params[:id])
     end
 
     def set_question
-      @question = Question.find(params[:question_id])
+      @question = @form.questions.find(params[:question_id])
     end
 
     def question_option_params
       params.require(:question_option).permit(
-        :question_id,
         :text,
         :position,
         :value,

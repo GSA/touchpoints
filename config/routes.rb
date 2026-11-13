@@ -324,7 +324,9 @@ Rails.application.routes.draw do
           patch 'sort', to: 'questions#sort', as: :sort_questions
         end
         resources :question_options, except: %i[index show] do
-          patch 'update_title', to: 'question_options#update_title', as: :inline_update
+          member do
+            patch 'update_title', to: 'question_options#update_title', as: :inline_update
+          end
           collection do
             post 'create_other', to: 'question_options#create_other', as: :create_other
             patch 'sort', to: 'question_options#sort', as: :sort_question_options
