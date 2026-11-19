@@ -11,7 +11,8 @@ class QuestionOption < ApplicationRecord
   validate :one_other_option_per_question, on: :create
 
   after_commit do |question_option|
-    FormCache.invalidate(question_option.question.form.short_uuid) if question_option.persisted?
+    # Deletions must invalidate the widget as well as edits.
+    FormCache.invalidate(question_option.question.form.short_uuid)
   end
 
   default_scope { order(position: :asc) }
