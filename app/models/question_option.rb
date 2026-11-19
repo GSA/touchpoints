@@ -13,10 +13,6 @@ class QuestionOption < ApplicationRecord
   after_commit do |question_option|
     # Deletions must invalidate the widget as well as edits.
     FormCache.invalidate(question_option.question.form.short_uuid)
-    if question_option.saved_change_to_question_id? && question_option.question_id_before_last_save
-      previous_question = Question.find_by(id: question_option.question_id_before_last_save)
-      FormCache.invalidate(previous_question.form.short_uuid) if previous_question
-    end
   end
 
   default_scope { order(position: :asc) }
