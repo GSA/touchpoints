@@ -15,7 +15,7 @@ applications:
     LOGIN_GOV_REDIRECT_URI: https://touchpoints.app.cloud.gov/users/auth/login_dot_gov/callback
     RAILS_ENV: production
     TOUCHPOINTS_WEB_DOMAIN: touchpoints.app.cloud.gov
-    INDEX_URL: /admin
+    INDEX_URL: https://touchpoints.app.cloud.gov/admin
     SKIP_WIDGET_RENDERER: "true"
     API_GATEWAY_BASE_URL: https://api.gsa.gov/analytics/touchpoints
     SILENTLY_REJECT_SPAM: "true"

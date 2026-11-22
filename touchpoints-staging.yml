@@ -12,7 +12,7 @@ applications:
       LOGIN_GOV_REDIRECT_URI: https://touchpoints-staging.app.cloud.gov/users/auth/login_dot_gov/callback
       RAILS_ENV: staging
       TOUCHPOINTS_WEB_DOMAIN: touchpoints-staging.app.cloud.gov
-      INDEX_URL: /admin
+      INDEX_URL: https://touchpoints-staging.app.cloud.gov/admin
       SKIP_WIDGET_RENDERER: "true"
       API_GATEWAY_BASE_URL: https://api.gsa.gov/test/analytics/touchpoints
       SILENTLY_REJECT_SPAM: "true"

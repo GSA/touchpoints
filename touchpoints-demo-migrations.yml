@@ -7,7 +7,7 @@ applications:
     RAILS_ENV: production
     STATEMENT_TIMEOUT: 0
     TOUCHPOINTS_WEB_DOMAIN: touchpoints-demo.app.cloud.gov
-    INDEX_URL: /admin
+    INDEX_URL: https://touchpoints-demo.app.cloud.gov/admin
     SKIP_WIDGET_RENDERER: "true"
     BUNDLE_WITHOUT: "development:test:widget_renderer"
   buildpacks:
