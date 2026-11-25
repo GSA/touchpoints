@@ -24,4 +24,26 @@ feature 'Browser session isolation', js: true do
       expect(page.evaluate_script("localStorage.getItem('reset_probe')")).to be_nil
     end
   end
+
+  scenario 'reset handles an open alert and still clears browser storage' do
+    visit index_path
+    page.driver.browser.manage.add_cookie(name: 'reset_probe', value: 'synthetic-test-value', path: '/')
+    page.execute_script("localStorage.setItem('reset_probe', 'synthetic-test-value')")
+    page.execute_script("setTimeout(() => alert('Browser reset regression probe'), 0)")
+
+    # Observe the alert without accepting it, leaving reset to handle it.
+    Selenium::WebDriver::Wait.new(timeout: Capybara.default_max_wait_time).until do
+      page.driver.browser.switch_to.alert.text == 'Browser reset regression probe'
+    rescue Selenium::WebDriver::Error::NoSuchAlertError
+      false
+    end
+
+    Capybara.reset_sessions!
+    visit index_path
+
+    aggregate_failures do
+      expect(page.driver.browser.manage.all_cookies.map { |cookie| cookie[:name] }).not_to include('reset_probe')
+      expect(page.evaluate_script("localStorage.getItem('reset_probe')")).to be_nil
+    end
+  end
 end

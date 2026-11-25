@@ -21,7 +21,7 @@ module ChromeStorageReset
     original_window = current_window_handle
     window_handles.each do |handle|
       switch_to_window(handle)
-      remember_storage_origin(current_url)
+      remember_storage_origin(storage_url_before_reset)
     end
     switch_to_window(original_window)
 
@@ -30,6 +30,15 @@ module ChromeStorageReset
   end
 
   private
+
+  def storage_url_before_reset
+    current_url
+  rescue Selenium::WebDriver::Error::UnexpectedAlertOpenError
+    # Origin capture precedes Capybara's own alert-aware reset. Use its helper,
+    # which also handles Chrome having already dismissed the alert, then retry once.
+    accept_unhandled_reset_alert
+    current_url
+  end
 
   def remember_storage_origin(url)
     uri = URI.parse(url)
