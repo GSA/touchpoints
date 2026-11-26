@@ -11,6 +11,7 @@ services:
       - .env.development
     environment:
       - DATABASE_URL=postgresql://postgres:changeme@db
+      - REDIS_URL=redis://redis:6379/1
       - HISTFILE=/usr/src/app/log/.bash_history
     depends_on:
       - redis

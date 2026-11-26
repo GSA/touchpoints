@@ -26,13 +26,13 @@ require_relative 'seeds/forms/yes_no'
 if ENV['DEVELOPER_EMAIL_ADDRESS'].present?
   #assumes email addresses in the form user@domain
   domain = ENV['DEVELOPER_EMAIL_ADDRESS'].split('@')[1]
-  developer_organization = Organization.create!({
+  developer_organization = Organization.find_by(domain: domain) || Organization.create!({
     name: 'Development Org',
     domain: domain,
     url: 'https://lvh.me',
     abbreviation: 'DEV'
   })
-  puts "Created Default Organization: #{developer_organization.name}"
+  puts "Developer Organization: #{developer_organization.name}"
 
   developer_user = User.new({
     organization: developer_organization,

@@ -114,7 +114,13 @@ class Form < ApplicationRecord
   end
 
   after_commit do |form|
-    FormCache.invalidate(form.short_uuid)
+    if !form.destroyed? && form.saved_change_to_last_response_created_at? &&
+       (form.saved_changes.keys - %w[last_response_created_at updated_at]).empty?
+      # Submission metadata changes the cached model, but not rendered widget JS.
+      Rails.cache.delete(FormCache::NAMESPACE + form.short_uuid.to_s)
+    else
+      FormCache.invalidate(form.short_uuid)
+    end
   end
 
   DELIVERY_METHODS = [
@@ -303,7 +309,17 @@ class Form < ApplicationRecord
 
   # returns javascript text that can be used standalone
   # or injected into a GTM Container Tag
+  #
+  # Served on every page load of every host site embedding this form, so the
+  # rendered output is cached. See FormCache.fetch_widget_js for the cache key
+  # and for the conditions under which caching is bypassed.
   def touchpoints_js_string
+    FormCache.fetch_widget_js(form: self) { render_touchpoints_js_string }
+  end
+
+  # Renders the widget JS. Call touchpoints_js_string instead unless you
+  # specifically need to bypass the cache.
+  def render_touchpoints_js_string
     # Try to use Rust widget renderer if available
     # Can be disabled via DISABLE_RUST_RENDERER env var to force ERB fallback
     use_rust = defined?(WidgetRenderer) && !Rails.env.test? && ENV['DISABLE_RUST_RENDERER'] != 'true'
