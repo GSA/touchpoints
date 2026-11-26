@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.3.11'
+ruby '3.3.14'
 
 rails_version = '~> 8.1.0'
 
@@ -47,7 +47,7 @@ gem 'bootsnap', require: false
 gem 'sassc-rails'
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
-gem 'image_processing', '~> 1.12'
+gem 'image_processing', '~> 2.0'
 
 gem 'active_model_serializers'
 gem 'acts-as-list'
