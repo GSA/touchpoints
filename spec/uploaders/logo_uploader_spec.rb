@@ -9,8 +9,11 @@ RSpec.describe LogoUploader do
       # Processing is globally disabled in test; enable it only for this subclass.
       uploader_class = Class.new(described_class)
       uploader_class.root = directory
-      uploader_class.enable_processing = true
       @uploader = uploader_class.new(Form.new, :logo)
+      @uploader.enable_processing = true
+      @uploader.versions.each_value do |version|
+        version.enable_processing = true
+      end
       example.run
     end
   end
