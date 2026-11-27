@@ -349,7 +349,6 @@ GEM
     mini_magick (5.4.0)
       logger
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (6.1.0)
       drb (~> 2.0)
       prism (>= 1.5, < 3)
@@ -371,9 +370,6 @@ GEM
     newrelic_rpm (10.2.0)
       logger
     nio4r (2.7.5)
-    nokogiri (1.19.7)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.7-aarch64-linux-musl)
@@ -750,7 +746,7 @@ DEPENDENCIES
   widget_renderer!
 
 RUBY VERSION
-  ruby 3.3.14p208
+   ruby 3.3.14p208
 
 BUNDLED WITH
-  4.1.0
+   2.7.2
